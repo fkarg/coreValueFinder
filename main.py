@@ -23,7 +23,6 @@ def loadValues():
         print("Failed loading value set: {}".format(str(e)))
         return {}
 
-
 def getSessionFilePath():
     sessions = glob.glob(".*.session")
     print("Present Sessions:")
@@ -104,7 +103,7 @@ def main(showDescr = True):
         sessionPath = None
 
     if not sessionPath:
-        sessionPath = ".{}.session".format(time.strftime("%Y-%m-%d-%H-%M"))
+        sessionPath = ".{}.session".format(time.strftime("%Y-%m-%d-%H:%M"))
         print("New Session: {}".format(sessionPath))
         for v in valueset.keys():
             values[v] = 0
