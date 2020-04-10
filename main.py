@@ -23,6 +23,7 @@ def loadValues():
         print("Failed loading value set: {}".format(str(e)))
         return {}
 
+
 def getSessionFilePath():
     sessions = glob.glob(".*.session")
     print("Present Sessions:")
