@@ -7,32 +7,34 @@ import json
 import time
 import glob
 
+
 def loadValues():
-    valuesFiles = glob.glob('*.values')
+    valuesFiles = glob.glob("*.values")
     selection = 0
-    if (len(valuesFiles) > 1):
+    if len(valuesFiles) > 1:
         print("Present value sets:")
         for i, path in enumerate(valuesFiles):
-            print("[{}] {}".format(i+1, path))
+            print("[{}] {}".format(i + 1, path))
         selection = int(input("Load value set: "))
     try:
-        with open(valuesFiles[selection-1]) as json_file:
+        with open(valuesFiles[selection - 1]) as json_file:
             return json.load(json_file)
     except Exception as e:
         print("Failed loading value set: {}".format(str(e)))
         return {}
 
+
 def getSessionFilePath():
-    sessions = glob.glob('.*.json')
+    sessions = glob.glob(".*.json")
     print("Present Sessions:")
     print("[0] New Session")
     for i, path in enumerate(sessions):
-        print("[{}] {}".format(i+1, path))
+        print("[{}] {}".format(i + 1, path))
 
     inp = input("Load Session: ")
-    if (inp == "" or inp == "0"):
+    if inp == "" or inp == "0":
         return None
-    return sessions[int(inp)-1]
+    return sessions[int(inp) - 1]
 
 
 def clear(text=""):
@@ -46,7 +48,6 @@ def clear(text=""):
 
     if text:
         print(text)
-
 
 
 def get_input() -> int:
@@ -85,8 +86,7 @@ def get_input() -> int:
     return index
 
 
-
-def main(showDescr = True):
+def main(showDescr=True):
     print("welcome to the core value finder")
     values = {}
     valueset = loadValues()
@@ -95,7 +95,7 @@ def main(showDescr = True):
     try:
         with open(sessionPath) as json_file:
             data = json.load(json_file)
-            values = data['values']
+            values = data["values"]
     except Exception as e:
         print("Failed loading Session: {}".format(str(e)))
         print("Fallback to new Session")
@@ -115,9 +115,17 @@ def main(showDescr = True):
         if showDescr:
             for i in range(0, len(selection)):
                 valueName = selection[i]
-                print("[{}] {} -- {}".format(i+1, valueName, valueset.get(valueName,{}).get('descr',"")))
+                print(
+                    "[{}] {} -- {}".format(
+                        i + 1, valueName, valueset.get(valueName, {}).get("descr", "")
+                    )
+                )
         else:
-            print("[1] {0} [2] {1} [3] {2}".format(selection[0], selection[1], selection[2]))
+            print(
+                "[1] {0} [2] {1} [3] {2}".format(
+                    selection[0], selection[1], selection[2]
+                )
+            )
 
         try:
             index = get_input()
@@ -126,12 +134,9 @@ def main(showDescr = True):
         except KeyboardInterrupt:
 
             print("Saving Session: {}".format(sessionPath))
-            dump = {
-                "values": values,
-                "timestamp": time.strftime("%Y%m%d-%H%M%S")
-            }
+            dump = {"values": values, "timestamp": time.strftime("%Y%m%d-%H%M%S")}
             json_data = json.dumps(dump, indent=2)
-            with open(sessionPath,'w') as file:
+            with open(sessionPath, "w") as file:
                 file.write(json_data)
             break
 
@@ -145,4 +150,3 @@ def main(showDescr = True):
 
 if __name__ == "__main__":
     main(not (len(sys.argv) > 1 and sys.argv[1] == "--no-descr"))
-

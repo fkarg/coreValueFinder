@@ -1,4 +1,5 @@
 # coreValueFinder
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 
 This script helps selecting your core values from a list heuristically.
 It shows 3 randomly choosen core values and asks to select the one that resonates most.
